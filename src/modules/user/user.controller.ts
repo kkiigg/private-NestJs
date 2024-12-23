@@ -1,8 +1,17 @@
-import { Controller, Get, Bind, Param, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Bind,
+  Param,
+  Post,
+  Body,
+  HttpException,
+} from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { UserDto } from './user.dto';
+import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
-// import { err400 } from '../../utils/error';
+import { err400, res200 } from '@/utils/resUtil';
+import { ResponseEntity } from '@/interfaces/responseEntity.interfece';
 
 @ApiTags('user')
 @Controller('user')
@@ -21,21 +30,20 @@ export class UserController {
     description: '获取用户所有列表',
     example: [new UserDto({ id: 'jack', name: 'ss' })],
   })
-  async findAll(): Promise<UserDto[]> {
-    return this.userService.findAll();
+  async findAll() {
+    // return this.userService.findAll();
+    return res200('ok', this.userService.findAll());
   }
 
   @Get(':id')
-  async findById(@Param() params): Promise<UserDto> {
+  async findById(@Param() params) {
     const { id } = params;
-    // if (id == 1) {
-    //   throw err400('缺少id');
-    // }
-    return this.userService.findById(id);
+    return res200('ok', this.userService.findById(id));
   }
 
   @Post()
-  async create(@Body() userDto: UserDto) {
+  async create(@Body() userDto: UserDto): Promise<ResponseEntity> {
     this.userService.create(userDto);
+    return res200('ok');
   }
 }

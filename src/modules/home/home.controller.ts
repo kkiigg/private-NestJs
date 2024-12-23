@@ -4,6 +4,6 @@ import { Controller, Get } from '@nestjs/common';
 export class HomeController {
   @Get('info')
   findAll(): string {
-    return 'This action returns all homes';
+    return 'home info';
   }
 }
