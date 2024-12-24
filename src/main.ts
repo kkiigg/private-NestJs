@@ -7,7 +7,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ['error', 'warn', 'log', 'debug'],
   });
-
   if (isDev()) {
     // Swagger
     const config = new DocumentBuilder()

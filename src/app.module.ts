@@ -1,5 +1,4 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 
 import { HomeModule } from './modules/home/home.module';
 import { UserModule } from './modules/user/user.module';
@@ -8,14 +7,16 @@ import { UserController } from './modules/user/user.controller';
 
 import { AuthMiddleware } from './middlewares/auth.middleware';
 
+import MySQLPlugin from '@/plugins/mysql';
+import DotenvPlugin from '@/plugins/dotenv';
+
 @Module({
   imports: [
-    // dotenv
-    ConfigModule.forRoot({
-      envFilePath: [`.env.${process.env.NODE_ENV || 'development'}`],
-      isGlobal: true,
-    }),
-    // modules
+    // DotEnv
+    DotenvPlugin(),
+    // MySQL
+    MySQLPlugin(),
+    // Modules
     HomeModule,
     UserModule,
     InfoModule,
