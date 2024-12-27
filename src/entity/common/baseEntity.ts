@@ -1,9 +1,12 @@
-import { Column } from 'typeorm';
+import { Column, PrimaryGeneratedColumn } from 'typeorm';
 
 export class BaseEntity {
-  @Column()
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({ nullable: true })
   create_datetime?: string;
 
-  @Column()
+  @Column({ nullable: true })
   update_datetime?: string;
 }

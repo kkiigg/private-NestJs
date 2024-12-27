@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, getManager, In } from 'typeorm';
 import { CUserEntity } from '@/entity/CUser.entity';
+import { CUserDto } from '@/entity/CUser.dto';
+import { GenderEnum, UserStatusEnum, UserRoleEnum } from '@/enum/common.enum';
 
 @Injectable()
 export class UserService {
@@ -13,15 +15,52 @@ export class UserService {
     private usersRepository: Repository<CUserEntity>,
   ) {}
 
-  create(obj: CUserEntity) {
+  create(obj: CUserDto) {
     // this.users.push(obj);
-    console.log(obj, '??');
+
     return this.usersRepository.insert(obj);
   }
+  update(id: string, obj: CUserDto) {
+    return this.usersRepository.update(id, obj);
+  }
+  async findAll(): Promise<CUserEntity[]> {
+    // return this.usersRepository.find();
+    return this.usersRepository.query('SELECT * FROM c_user');
 
-  findAll(): Promise<CUserEntity[]> {
-    return this.usersRepository.find();
     // return this.users;
+  }
+
+  async page(
+    pageIndex: number,
+    pageSize: number,
+    role: number,
+  ): Promise<[CUserEntity[], number]> {
+    // return this.usersRepository.find();
+    // const start = pageIndex * pageSize;
+    // const end = pageIndex * pageSize;
+
+    // return this.usersRepository.query(
+    //   `SELECT * FROM c_user limit ${start},${end}`,
+    // );
+
+    // return this.users;
+
+    const skip = (pageIndex - 1) * pageSize;
+    console.log(skip, '???', pageIndex, pageSize);
+
+    const [users, total] = await this.usersRepository.findAndCount({
+      skip: skip,
+      take: pageSize,
+      where: {
+        status: In([UserStatusEnum.normal]),
+        role,
+      },
+      order: {
+        name: 'ASC',
+      },
+    });
+    console.log(users, total, pageSize, pageIndex, '???');
+    return [users, total];
   }
 
   findById(id: string): Promise<CUserEntity> {
@@ -31,9 +70,21 @@ export class UserService {
     // return this.users.find((item) => item.id === id);
   }
   delete(id: string) {
-    this.usersRepository.remove({
-      id,
-    });
+    this.usersRepository.delete(id);
     // return this.users.find((item) => item.id === id);
+  }
+
+  async updateMap(id: string, map: Record<string, any>) {
+    const user = await this.findById(id);
+    console.log('??', user, map);
+    if (user) {
+      for (const key in map) {
+        user[key] = map[key];
+      }
+      console.log('??-', user);
+      await this.usersRepository.save(user); // 保存实体
+    } else {
+      throw new Error('User not found');
+    }
   }
 }

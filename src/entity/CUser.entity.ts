@@ -1,44 +1,36 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column } from 'typeorm';
 import { GenderEnum, UserStatusEnum, UserRoleEnum } from '@/enum/common.enum';
+import { BaseEntity } from './common/baseEntity';
 
+// 不加nullable数据库链接会报错
 @Entity('c_user')
-export class CUserEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({ length: 24 })
-  name?: string;
+export class CUserEntity extends BaseEntity {
+  @Column({ nullable: false })
+  name: string;
 
   @Column({
-    type: 'int',
-    width: 3,
+    nullable: true,
   })
   age?: number;
 
   @Column({
-    type: 'enum',
-    enum: GenderEnum,
-    default: GenderEnum.male,
+    nullable: true,
   })
   gender?: number;
 
-  @Column()
+  @Column({ nullable: true })
   address?: string;
 
-  @Column()
+  @Column({ nullable: true })
   wechat?: string;
 
   @Column({
-    type: 'enum',
-    enum: UserStatusEnum,
-    default: UserStatusEnum.normal,
+    nullable: true,
   })
   status?: number;
 
   @Column({
-    type: 'enum',
-    enum: UserRoleEnum,
-    default: UserRoleEnum.consumer,
+    nullable: true,
   })
   role?: number;
 }
