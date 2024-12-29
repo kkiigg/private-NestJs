@@ -3,6 +3,7 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { HomeModule } from './modules/home/home.module';
 import { UserModule } from './modules/user/user.module';
 import { InfoModule } from './modules/info/info.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { UserController } from './modules/user/user.controller';
 
 import { AuthMiddleware } from './middlewares/auth.middleware';
@@ -20,6 +21,7 @@ import DotenvPlugin from '@/plugins/dotenv';
     HomeModule,
     UserModule,
     InfoModule,
+    AuthModule,
   ],
 })
 export class AppModule implements NestModule {

@@ -47,4 +47,16 @@ export class CUserDto {
   @IsOptional()
   @ToNumber()
   role: UserRoleEnum;
+
+  @IsString()
+  @IsOptional()
+  password: string;
+
+  @IsString()
+  @IsOptional()
+  email: string;
+
+  @IsString()
+  @IsOptional()
+  phone: string;
 }

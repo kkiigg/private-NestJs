@@ -13,8 +13,8 @@ import { ValidationPipe } from '@/utils/validation.pipe';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 // import { UserDto } from './dto/user.dto';
 // import { CUserEntity } from '@/entity/CUser.entity';
-import { CUserDto } from '@/entity/CUser.dto';
-import { CUserEntity } from '@/entity/CUser.entity';
+import { CUserDto } from '@/entity/cUser.dto';
+import { CUserEntity } from '@/entity/cUser.entity';
 import { UserService } from './user.service';
 import { err400, res200 } from '@/utils/resUtil';
 import {

@@ -9,3 +9,4 @@ record:
 3. Class validator https://github.com/typestack/class-validator
 4. Class-transformer https://github.com/typestack/class-transformer
 5. Typeorm https://typeorm.bootcss.com/find-options
+6. 更新entity的结构，数据库表结构会同步更新（赞）

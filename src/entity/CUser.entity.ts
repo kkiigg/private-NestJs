@@ -33,4 +33,19 @@ export class CUserEntity extends BaseEntity {
     nullable: true,
   })
   role?: number;
+
+  @Column({
+    nullable: true,
+  })
+  password?: string;
+
+  @Column({
+    nullable: true,
+  })
+  email?: string;
+
+  @Column({
+    nullable: true,
+  })
+  phone?: string;
 }

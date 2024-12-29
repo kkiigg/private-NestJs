@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CUserEntity } from '@/entity/CUser.entity';
+import { CUserEntity } from '@/entity/cUser.entity';
 
 export default async function () {
   const {

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, getManager, In } from 'typeorm';
-import { CUserEntity } from '@/entity/CUser.entity';
-import { CUserDto } from '@/entity/CUser.dto';
+import { CUserEntity } from '@/entity/cUser.entity';
+import { CUserDto } from '@/entity/cUser.dto';
 import { GenderEnum, UserStatusEnum, UserRoleEnum } from '@/enum/common.enum';
 
 @Injectable()
@@ -15,21 +15,19 @@ export class UserService {
     private usersRepository: Repository<CUserEntity>,
   ) {}
 
-  create(obj: CUserDto) {
-    // this.users.push(obj);
-
-    return this.usersRepository.insert(obj);
-  }
-  update(id: string, obj: CUserDto) {
-    return this.usersRepository.update(id, obj);
-  }
   async findAll(): Promise<CUserEntity[]> {
     // return this.usersRepository.find();
     return this.usersRepository.query('SELECT * FROM c_user');
 
     // return this.users;
   }
-
+  async findBy(name: string): Promise<CUserEntity> {
+    return this.usersRepository.findOne({
+      where: {
+        name,
+      },
+    });
+  }
   async page(
     pageIndex: number,
     pageSize: number,
@@ -69,11 +67,15 @@ export class UserService {
     });
     // return this.users.find((item) => item.id === id);
   }
-  delete(id: string) {
-    this.usersRepository.delete(id);
-    // return this.users.find((item) => item.id === id);
-  }
 
+  create(obj: CUserDto) {
+    // this.users.push(obj);
+
+    return this.usersRepository.insert(obj);
+  }
+  update(id: string, obj: CUserDto) {
+    return this.usersRepository.update(id, obj);
+  }
   async updateMap(id: string, map: Record<string, any>) {
     const user = await this.findById(id);
     console.log('??', user, map);
@@ -86,5 +88,10 @@ export class UserService {
     } else {
       throw new Error('User not found');
     }
+  }
+
+  delete(id: string) {
+    this.usersRepository.delete(id);
+    // return this.users.find((item) => item.id === id);
   }
 }
